@@ -5,7 +5,7 @@
         body.delegate = config
         body()
         
-        node {
+        pipeline {
           stage('Deploy'){
               steps{
                           lock('ansibleTower') {

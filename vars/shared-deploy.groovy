@@ -1,17 +1,11 @@
-    def call(body) {
+    def call(Map config) {        
 
-        def config = [:]
-        body.resolveStrategy = Closure.DELEGATE_FIRST
-        body.delegate = config
-        body()
-        
-              steps{
                     lock('ansibleTower') {
                     echo 'Deploying using tower...'
 
-                    echo """curl -k --user ${env.TOWER_ACCESS_USR}:${env.TOWER_ACCESS_PSW} 'https://${config.TOWER_SERVER}/api/v1/job_templates/${config.TOWER_JOB_TPLT_ID}/launch/' -X POST -d '{ "extra_vars": { "env": "${config.DEPLOY_ENV}", "version": "0.0.4-MSSL-SNAPSHOT", "deployment_iteration": 0, "aws_region": "us-east-1" }, "vault_password": "${env.TOWER_VAULT_PWD}" }' -H 'Content-Type:application/json' > tower_launch_output"""
+                    echo """curl -k --user ${env.TOWER_ACCESS_USR}:${env.TOWER_ACCESS_PSW} 'https://config.TOWER_SERVER/api/v1/job_templates/config.TOWER_JOB_TPLT_ID/launch/' -X POST -d '{ "extra_vars": { "env": "config.DEPLOY_ENV", "version": "0.0.4-MSSL-SNAPSHOT", "deployment_iteration": 0, "aws_region": "us-east-1" }, "vault_password": "${env.TOWER_VAULT_PWD}" }' -H 'Content-Type:application/json' > tower_launch_output"""
 
-                    sh """curl -k --user ${env.TOWER_ACCESS_USR}:${env.TOWER_ACCESS_PSW} 'https://${config.TOWER_SERVER}/api/v1/job_templates/${config.TOWER_JOB_TPLT_ID}/launch/' -X POST -d '{ "extra_vars": { "env": "${config.DEPLOY_ENV}", "version": "0.0.4-MSSL-SNAPSHOT", "deployment_iteration": 0, "aws_region": "us-east-1" }, "vault_password": "${env.TOWER_VAULT_PWD}" }' -H 'Content-Type:application/json' > tower_launch_output"""
+                    sh """curl -k --user ${env.TOWER_ACCESS_USR}:${env.TOWER_ACCESS_PSW} 'https://config.TOWER_SERVER/api/v1/job_templates/config.TOWER_JOB_TPLT_ID/launch/' -X POST -d '{ "extra_vars": { "env": "config.DEPLOY_ENV", "version": "0.0.4-MSSL-SNAPSHOT", "deployment_iteration": 0, "aws_region": "us-east-1" }, "vault_password": "${env.TOWER_VAULT_PWD}" }' -H 'Content-Type:application/json' > tower_launch_output"""
                     echo "Check for launch output"
                     fileExists('tower_launch_output')
                     timeout(time: 40, unit: 'MINUTES') {
@@ -32,7 +26,7 @@
                             while(status != 'successful' && status != 'failed') {
                                 sleep 60 // in secs - check every minute
                                 sh """curl -k --user ${env.TOWER_ACCESS_USR}:${env.TOWER_ACCESS_PSW} \
-                                      \'https://${config.TOWER_SERVER}/api/v1/jobs/${towerJobId}/\' \
+                                      \'https://config.TOWER_SERVER/api/v1/jobs/${towerJobId}/\' \
                                       > tower_output"""
                                     towerOutput = readJSON file:'tower_output'
                                     status = towerOutput.status
@@ -44,5 +38,5 @@
                         }
                     } // timeout 
                   }//lock
-              }//steps
+
     }

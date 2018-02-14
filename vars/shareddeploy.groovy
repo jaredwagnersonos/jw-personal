@@ -7,6 +7,7 @@
         
         node {
           stage('Deploy'){
+              steps{
                           lock('ansibleTower') {
                     echo 'Deploying using tower...'
 
@@ -45,6 +46,7 @@
                         }
                     } // timeout 
                   }//lock
+              }
           }
         }
     }

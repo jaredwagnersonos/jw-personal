@@ -6,9 +6,10 @@
         body()
         
         pipeline {
+            stages{
           stage('Deploy'){
               steps{
-                          lock('ansibleTower') {
+                    lock('ansibleTower') {
                     echo 'Deploying using tower...'
 
                     echo """curl -k --user ${env.TOWER_ACCESS_USR}:${env.TOWER_ACCESS_PSW} 'https://${config.TOWER_SERVER}/api/v1/job_templates/${config.TOWER_JOB_TPLT_ID}/launch/' -X POST -d '{ "extra_vars": { "env": "${config.DEPLOY_ENV}", "version": "0.0.4-MSSL-SNAPSHOT", "deployment_iteration": 0, "aws_region": "us-east-1" }, "vault_password": "${env.TOWER_VAULT_PWD}" }' -H 'Content-Type:application/json' > tower_launch_output"""
@@ -47,6 +48,7 @@
                     } // timeout 
                   }//lock
               }
+          }
           }
         }
     }

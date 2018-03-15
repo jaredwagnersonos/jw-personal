@@ -6,8 +6,10 @@
 
         def extraVars=""
         script{
-            for(key in args.additionalExtraVars.keySet()){
-                extraVars+=", '${key}':'${args.additionalExtraVars[key]}'"
+            if(args.additionalExtraVars) {
+                for(key in args.additionalExtraVars.keySet()){
+                    extraVars+=", '${key}':'${args.additionalExtraVars[key]}'"
+                }
             }
         }
 

@@ -31,6 +31,6 @@
                        templateType: 'job',
                        towerServer: towerServer,
                        verbose: true,
-                       extraVars: "{ 'env': ${deployEnv}, 'wildfly_base_maven_version': ${args.buildVersion}, 'deployment_iteration': 0, 'aws_region': 'us-east-1', 'wildfly_base_maven_repository': 'snapshots' ${extraVars}}")
+                       extraVars: "{ 'env': ${deployEnv}, 'version': ${args.buildVersion}, 'deployment_iteration': 0, 'aws_region': 'us-east-1', 'wildfly_base_maven_repository': 'snapshots' ${extraVars}}")
 
     }

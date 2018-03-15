@@ -14,6 +14,10 @@
         }
 
         echo "Triggering tower deploy: $args.module $args.buildVersion"
+        echo "Passed in arguments"
+        echo "DEPLOY ENV ${env.env}"
+        echo "VERSION ${env.buildVersion}"
+        echo "TOWER JOB ID ${env.jobId}"
 
         ansibleTower (credential: '',
                        importTowerLogs: false,
